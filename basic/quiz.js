@@ -28,8 +28,8 @@ console.log("end");
  * end
  * Timeout
  * 
- * 雖然timeout設定為0秒後執行，但因為js為single thread的關係，執行方法為FIFO
- * setTimeout此function會被排在最後在執行，而0秒會變成「盡早執行」之意
+ * 雖然timeout設定為0秒後執行，但因為js為single thread的關係，不會有其他thread去幫忙執行其他的部分
+ * 而程式語言執行方法為FIFO，setTimeout此function會被排在最後在執行，而0秒會變成「盡早執行」之意
 */
 console.log("start");
 
