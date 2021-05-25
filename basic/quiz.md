@@ -1,17 +1,17 @@
 # (1) 請問下列程式執行後的結果為何？為什麼？
 
-`
-console.log("start");
 
-(function () {
-  console.log("IIFE");
-  setTimeout(function () {
-    console.log("Timeout");
-  }, 1000);
-})();
+    console.log("start");
 
-console.log("end");
-`
+    (function () {
+      console.log("IIFE");
+      setTimeout(function () {
+        console.log("Timeout");
+      }, 1000);
+    })();
+
+    console.log("end");
+
 A:
 start
 IIFE
