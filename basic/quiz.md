@@ -1,5 +1,6 @@
 # (1) 請問下列程式執行後的結果為何？為什麼？
 
+`
 console.log("start");
 
 (function () {
@@ -10,7 +11,7 @@ console.log("start");
 })();
 
 console.log("end");
-
+`
 A:
 start
 IIFE
