@@ -1,13 +1,5 @@
 # (1) 請問下列程式執行後的結果為何？為什麼？
 
-A:
-start
-IIFE
-end
-Timeout
-
-因為有設定timeout，所以1秒後才會執行到console.log("Timeout")
-
 console.log("start");
 
 (function () {
@@ -19,18 +11,26 @@ console.log("start");
 
 console.log("end");
 
+A:
+start
+IIFE
+end
+Timeout
 
-//(2) 請問下列程式執行的結果為何？為什麼？
-/* 
- * A:
- * start
- * IIFE
- * end
- * Timeout
- * 
- * 雖然timeout設定為0秒後執行，但因為js為single thread的關係，執行方法為FIFO
- * setTimeout此function會被排在最後在執行，而0秒會變成「盡早執行」之意
-*/
+因為有設定timeout，所以1秒後才會執行到console.log("Timeout")
+
+
+# (2) 請問下列程式執行的結果為何？為什麼？
+
+A:
+start
+IIFE
+end
+Timeout
+
+雖然timeout設定為0秒後執行，但因為js為single thread的關係，執行方法為FIFO
+setTimeout此function會被排在最後在執行，而0秒會變成「盡早執行」之意
+
 console.log("start");
 
 (function () {
