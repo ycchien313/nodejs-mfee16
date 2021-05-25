@@ -1,13 +1,13 @@
-//(1) 請問下列程式執行後的結果為何？為什麼？
-/* 
- * A:
- * start
- * IIFE
- * end
- * Timeout
- * 
- * 因為有設定timeout，所以1秒後才會執行到console.log("Timeout")
-*/
+# (1) 請問下列程式執行後的結果為何？為什麼？
+
+A:
+start
+IIFE
+end
+Timeout
+
+因為有設定timeout，所以1秒後才會執行到console.log("Timeout")
+
 console.log("start");
 
 (function () {
