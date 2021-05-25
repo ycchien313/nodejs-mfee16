@@ -12,6 +12,7 @@
 
     console.log("end");
 
+
     A:
     start
     IIFE
