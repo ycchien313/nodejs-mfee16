@@ -13,12 +13,12 @@
     console.log("end");
 
 A:
-start
-IIFE
-end
-Timeout
+ start
+ IIFE
+ end
+ Timeout
 
-因為有設定timeout，所以1秒後才會執行到console.log("Timeout")
+ 因為有設定timeout，所以1秒後才會執行到console.log("Timeout")
 
 
 # (2) 請問下列程式執行的結果為何？為什麼？
