@@ -42,7 +42,8 @@
     end
     Timeout
 
-雖然timeout設定為0秒後執行，但因為js為single thread的關係，執行方法為FIFO  setTimeout此function會被排在最後在執行，而0秒會變成「盡早執行」之意
+雖然timeout設定為0秒後執行，但因為js為single thread的關係，執行方法為FIFO<br>
+setTimeout此function會被排在最後在執行，而0秒會變成「盡早執行」之意
 
 
 
