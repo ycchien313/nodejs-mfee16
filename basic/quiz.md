@@ -25,22 +25,22 @@
 
 # (2) 請問下列程式執行的結果為何？為什麼？
 
-console.log("start");
+    console.log("start");
 
-(function () {
-  console.log("IIFE");
-  setTimeout(function () {
-    console.log("Timeout");
-  }, 0);
-})();
+    (function () {
+        console.log("IIFE");
+        setTimeout(function () {
+            console.log("Timeout");
+        }, 0);
+    })();
 
-console.log("end");
+    console.log("end");
 
-A:
-start
-IIFE
-end
-Timeout
+    A:
+    start
+    IIFE
+    end
+    Timeout
 
 雖然timeout設定為0秒後執行，但因為js為single thread的關係，執行方法為FIFO
 setTimeout此function會被排在最後在執行，而0秒會變成「盡早執行」之意
