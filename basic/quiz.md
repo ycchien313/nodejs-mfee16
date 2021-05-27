@@ -42,7 +42,7 @@
     end
     Timeout
 
-答案同(1)
+答案同 (1)
 
 1. js 程式會依序由上而下將該 function push to stack 執行，執行完後隨即將其 pop
 2. 待執行到 setTimeout 的時候，因其為 browser 的 API，因此會置於 web apis，隨即又 push to task queue，但如有 timer 狀況(ex. setTimeout)，則會待時間到達時才 push to task queue，因此本題會於 0 秒後 push to task queue
@@ -51,29 +51,31 @@
 <br>
 
 
-//(3) 請問下列程式執行的結果為何？為什麼？
-/* 
- * A:
- * foo
- * bar
- * baz
- * 
- * () => {} 等同 function(){}
- * foo()內包含其他function
- * 所以執行到foo()後才會執行到其他function
- * 
-*/
-const bar = () => console.log("bar");
+# (3) 請問下列程式執行的結果為何？為什麼？
 
-const baz = () => console.log("baz");
+    const bar = () => console.log("bar");
 
-const foo = () => {
-    console.log("foo");
-    bar();
-    baz();
-};
+    const baz = () => console.log("baz");
 
-foo();
+    const foo = () => {
+        console.log("foo");
+        bar();
+        baz();
+    };
+
+    foo();
+
+    A:
+    foo
+    bar
+    baz
+
+() => {} 等同 function(){}
+foo()內包含其他function
+所以執行到foo()後才會執行到其他function
+  
+
+
 
 
 //(4) 請問下列程式執行的結果為何？為什麼？
