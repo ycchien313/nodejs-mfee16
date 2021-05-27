@@ -99,8 +99,6 @@
     baz
     bar
 
-此原因為(2)與(3)的結合
-執行foo()後才開始執行其他function，接者因為single-thread及FIFO的關係才會有此結果
 
 1. js 程式會依序由上而下將該 function push to stack 執行，執行完後隨即將其 pop
 2. () => {} 等同 function(){}，因此 const bar、const baz、const foo 僅為宣告常數
