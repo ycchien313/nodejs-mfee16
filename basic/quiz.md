@@ -17,9 +17,6 @@
     IIFE
     end
     Timeout
-
-
- 因為有設定timeout，所以1秒後才會執行到console.log("Timeout")<br>
  
 1. js 程式會依序由上而下將該 function push to stack 執行，執行完後隨即將其 pop
 2. 待執行到 setTimeout 的時候，因其為 browser 的 API，因此會置於 web apis，隨即又 push to task queue，但如有 timer 狀況(ex. setTimeout)，則會待時間到達時才 push to task queue，因此本題會於 1 秒後 push to task queue
