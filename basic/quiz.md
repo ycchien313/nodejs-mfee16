@@ -22,6 +22,7 @@
 2. 待執行到 setTimeout 的時候，因其為 browser 的 API，因此會置於 web apis，隨即又 push to task queue，但如有 timer 狀況(ex. setTimeout)，則會待時間到達時才 push to task queue，因此本題會於 1 秒後 push to task queue
 3. 待 js 程式都執行完畢後，代表 stack 為空，那麼 event loop 則會開始工作
 4. event loop 判斷 stack 為空時，會依序將 task queue 之任務 push to stack 並執行，直到 task queue 為空為止
+<br>
 
 # (2) 請問下列程式執行的結果為何？為什麼？
 
@@ -48,7 +49,7 @@
 1. js 程式會依序由上而下將該 function push to stack 執行，執行完後隨即將其 pop
 2. 待執行到 setTimeout 的時候，因其為 browser 的 API，因此會置於 web apis，隨即又 push to task queue，但如有 timer 狀況(ex. setTimeout)，則會待時間到達時才 push to task queue，因此本題會於 0 秒後 push to task queue
 3. 待 js 程式都執行完畢後，代表 stack 為空，那麼 event loop 則會開始工作
-4. event loop 判斷 stack 為空時，會依序將 task queue 之任務 push to stack 並執行，直到 task queue 為空為止
+4. event loop 判斷 stack 為空時，會依序將 task queue 之任務 push to stack 並執行，直到 task queue 為空為止<br>
 
 
 # (3) 請問下列程式執行的結果為何？為什麼？
