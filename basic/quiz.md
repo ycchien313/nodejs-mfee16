@@ -26,7 +26,7 @@
 3. 待 js 程式都執行完畢後，代表 stack 為空，那麼 event loop 則會開始工作
 4. event loop 判斷 stack 為空時，會依序將 task queue 之任務 push to stack 並執行，直到 task queue 為空為止
 
-
+<br>
 # (2) 請問下列程式執行的結果為何？為什麼？
 
     console.log("start");
