@@ -36,6 +36,7 @@
 
     console.log("end");
 
+
     A:
     start
     IIFE
@@ -65,15 +66,15 @@
 
     foo();
 
+
     A:
     foo
     bar
     baz
 
-() => {} 等同 function(){}
-foo()內包含其他function
-所以執行到foo()後才會執行到其他function
-  
+1. js 程式會依序由上而下將該 function push to stack 執行，執行完後隨即將其 pop
+2. () => {} 等同 function(){}，因此 const bar、const baz、const foo 僅為宣告常數
+3. foo() 則開始動作，並依序將 function 內之 console.log() push to stack 執行印出之行為
 
 
 
