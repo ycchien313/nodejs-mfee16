@@ -99,6 +99,7 @@
     baz
     bar
 
+答案為 (2)、(3) 之結合
 
 1. js 程式會依序由上而下將該 function push to stack 執行，執行完後隨即將其 pop
 2. () => {} 等同 function(){}，因此 const bar、const baz、const foo 僅為宣告常數
