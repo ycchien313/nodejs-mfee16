@@ -2,8 +2,14 @@ const axios = require('axios')
 
 axios({
         method: "get",
-        url: "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20210528&stockNo=2330&_=1622187642107",
-        responseType: "json"
+        // url: "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20210528&stockNo=2330&_=1622187642107",
+        responseType: "json",
+        url: "https://www.twse.com.tw/exchangeReport/STOCK_DAY?",
+        params: {
+            response : "json",
+            date : "20210528",
+            stockNo : "2330"
+        }
     })
     .then(function(response){
         let stockList =  new Array()
