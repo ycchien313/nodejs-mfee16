@@ -19,7 +19,7 @@ async function getTwseData() {
         return
     }
 
-    axios({
+    await axios({
             method: "get",
             responseType: "json",
             url: "https://www.twse.com.tw/exchangeReport/STOCK_DAY?",
