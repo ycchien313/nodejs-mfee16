@@ -26,11 +26,14 @@
         return new Promise((resolve, reject) => {
             var xhr = new XMLHttpRequest()
             xhr.open("GET", "http://34.217.120.25:3000", true)
+            xhr.onerror = function(){
+                reject(this.status)
+            }
             xhr.onload = function(){
                 if(xhr.status == 200)
-                    resolve(`非同步請求 load ${this.responseText}`)
+                    resolve(this.responseText)
                 else
-                    reject("失敗")
+                    reject(this.status)
             }
             xhr.send()
         })
@@ -39,10 +42,10 @@
     asyncPromiseBtn.addEventListener("click", function(){
         xhrPromise()
             .then((result) => {
-                message.innerText = result
+                message.innerText = `非同步請求 load ${result}}`
             })
             .catch((err) => {
-                message.innerText = `錯誤：${err}`
+                message.innerText = `非同步請求 有問題 ${err}`
             })
     })
 </script>
