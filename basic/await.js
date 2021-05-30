@@ -29,17 +29,19 @@ let doWorkPromise = function(job, timer, success){
         let result = await doWorkPromise("刷完牙", 2000, true);
         console.log("await", result);
 
-        let noAwait = doWorkPromise("刷完牙", 2000, true);
-        console.log("noAwait", noAwait);
-        // let noAwait = doWorkPromise("刷完牙", 2000, true)
-        // noAwait
-        //     .then((result) => {
-        //         console.log("noAwait", result)
-        //     })
-        //     .catch((err) => {
-        //         console.error("發生錯誤", err);
-        //     });
+        // let noAwait = doWorkPromise("刷完牙", 2000, true);
+        // console.log("noAwait", noAwait);
 
+        let noAwait = doWorkPromise("刷完牙", 3000, true);
+        noAwait
+            .then(result => {
+                console.log("noAwait", result);
+            })
+            .catch(err => {
+                console.log("err", err)
+            })
+
+        console.log("123")
         
         result = await doWorkPromise("吃早餐", 2500, true);
         console.log("await", result);
