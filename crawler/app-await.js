@@ -2,22 +2,21 @@ const axios = require("axios")
 const fs = require("fs")
 
 
-let getStockNo = new Promise((resolve, reject) => {
-    fs.readFile("stock.txt", "utf8", (err, data) => {
-        err != null ? reject(err) : resolve(data)
+let getStockNo = function(){
+    return new Promise((resolve, reject) => {
+        fs.readFile("stock.txt", "utf8", (err, data) => {
+            err != null ? reject(err) : resolve(data)
+        })
     })
-})
+}
 
 
 async function getTwseData() {
     let stockNo = null
 
-    try {
-        stockNo = await getStockNo
-    } catch (err) {
-        console.log("讀檔失敗", err)
-        return
-    }
+    let p1 = await getStockNo()
+    console.log("await", p1)
+    return
 
     await axios({
             method: "get",
