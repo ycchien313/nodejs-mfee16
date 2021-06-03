@@ -26,7 +26,7 @@
  * 
  * A.
  * 三種作法在實現 Promise 的 resolve()、reject() callback 上都是可行，但差異如下：
- * 作法1. 當其中一個 then((onFulfilled)) 執行過程出現錯誤或回傳 reject() 的時候，會進到 catch()，雖然可以正確接到錯誤，但接完就結束，無法達到每個 then() 的串接功能。
+ * 作法1. 當其中一個 then((onFulfilled)) 執行過程出現錯誤或 reject() callback 的時候，會進到 catch()，雖然可以正確接到錯誤，但接完就結束，無法達到每個 then() 的串接功能。
  * 作法2. 由於使用 then((onFulfilled), (onRejected))，因此該 Promise 執行過程中不論正確或錯誤皆能順利執行，但如於 then() 的執行過程中出現錯誤，則會進到最後 catch()，仍無法達到每個 then() 的串接功能。
  * 作法3. 每個 Promise 的 resolve() 會進到 then((onFulfilled))，reject() 或 then((onFulfilled)) 執行過程錯誤則會進到 catch()，並依序執行串接下去。
  * 作法4. 每個 Promise 的 resolve() 會進到 then((onFulfilled))，reject() 會進到 then((onRejected))，兩個 callback 如過程有錯皆會進到各自的 catch()，並依序執行串接下去。
