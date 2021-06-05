@@ -1,15 +1,22 @@
 const axios = require("axios")
 const fs = require("fs")
+// 取名為 Promise 用以取代原生的 Promise，以免用到
 const Promise = require("bluebird")
 
 
-// 讀取 stock.txt 之股票代碼
-let getStockData = Promise.promisify(fs.readFile)
+// 把 fs.readFile function 包起來
+let readFile = Promise.promisify(fs.readFile)
+
+// 把 fs 所有的 function 都包成 promise
+// let getStockData = Promise.promisifyAll(fs)
+
+// let getStockData = Promise.promisify(fs.readFile)("stock.txt", "utf-8")
 
 
 // get data of twse API
 function getTwseData() {
-    getStockData("stock.txt", "utf-8")
+    // getStockData
+    readFile("stock.txt", "utf-8")
         .then((value) => {
             let stockNo = null
             stockNo = value //股票代碼
@@ -41,8 +48,9 @@ function getTwseData() {
             // stockList.push(data)
             // console.log(stockList)
 
-            let stockName = response.data["title"].split(/\s+/)[2]
-            console.log(`股票名稱：${stockName}`)
+            // let stockName = response.data["title"].split(/\s+/)[2]
+            // console.log(`股票名稱：${stockName}`)
+            console.log(response.data)
         })
         .catch((err) => {
             console.log(`讀檔錯誤：${err}`)
