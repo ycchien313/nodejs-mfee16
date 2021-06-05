@@ -16,8 +16,8 @@ const conn = Promise.promisifyAll(connection);
     try{
         // 對資料庫查詢
         await conn.connectAsync()
-        let stockId = await fs.readFileAsync("stock.txt", "utf-8")
-        let results = await conn.queryAsync(`SELECT stock_name FROM stock WHERE stock_id = ${stockId}`)
+        let stockId = await fs.readFileAsync("stock.txt", "utf-8").catch((err) => {throw `status: faild, 檔案讀取失敗, ${err}`})
+        let results = await conn.queryAsync(`SELECT stock_name FROM stock WHERE stock_id = ${stockId}`).catch((err) => {throw `status: faild, 資料庫查詢失敗, ${err}`})
 
         // 有資料則印出
         if(results.length > 0){
@@ -26,7 +26,7 @@ const conn = Promise.promisifyAll(connection);
         }
         else{
             // 無資料則解析 API 並新增至資料庫
-            let response = await axios.get(`https://www.twse.com.tw/zh/api/codeQuery?query=${stockId}`)
+            let response = await axios.get(`https://www.twse.com.tw/zh/api/codeQuery?query=${stockId}`).catch((err) => {throw `status: faild, API 獲取失敗, ${err}`})
             let suggestions = response.data.suggestions
             stockId = suggestions[0].split(/\s+/)[0]
             stockName = suggestions[0].split(/\s+/)[1]
@@ -35,7 +35,7 @@ const conn = Promise.promisifyAll(connection);
         }
         
     }catch(e){
-        console.error("catch: ", e.stack)
+        console.error("catch: ", e)
     }finally{
         connection.end()
     }
