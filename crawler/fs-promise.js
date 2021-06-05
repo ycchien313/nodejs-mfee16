@@ -3,11 +3,6 @@ const fs = require("fs/promises")
 
 // 讀取 stock.txt 之股票代碼
 let getStockData = function(){
-    // return new Promise((resolve, reject) => {
-    //     fs.readFile("stock.txt", "utf8", (err, data) => {
-    //         err != null ? reject(err) : resolve(data)
-    //     })
-    // })
     return fs.readFile("stock.txt", "utf8", (err, data) => {
         returnerr != null ? reject(err) : resolve(data)
     })
