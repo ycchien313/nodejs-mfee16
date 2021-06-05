@@ -1,61 +1,113 @@
-const axios = require("axios")
-const fs = require("fs")
-// 取名為 Promise 用以取代原生的 Promise，以免用到
 const Promise = require("bluebird")
+const fs = Promise.promisifyAll(require("fs"))
+const mysql = require("mysql")
+const axios = require("axios")
+const connection = mysql.createConnection({
+    host     : "localhost",
+    user     : "root",
+    password : "0000",
+    database : "stock"
+})
+const conn = Promise.promisifyAll(connection);
 
 
-// 把 fs.readFile function 包起來
-let readFile = Promise.promisify(fs.readFile)
+/********** aysnc/await **********/
+(async function(){
+    try{
+        // 對資料庫查詢
+        await conn.connectAsync()
+        let stockId = await fs.readFileAsync("stock.txt", "utf-8")
+        let results = await conn.queryAsync(`SELECT stock_name FROM stock WHERE stock_id = ${stockId}`)
 
-// 把 fs 所有的 function 都包成 promise
-// let getStockData = Promise.promisifyAll(fs)
-
-// let getStockData = Promise.promisify(fs.readFile)("stock.txt", "utf-8")
-
-
-// get data of twse API
-function getTwseData() {
-    // getStockData
-    readFile("stock.txt", "utf-8")
-        .then((value) => {
-            let stockNo = null
-            stockNo = value //股票代碼
-
-            return axios({
-                method: "get",
-                responseType: "json",
-                url: "https://www.twse.com.tw/exchangeReport/STOCK_DAY?",
-                params: {
-                    response: "json",
-                    date: "20210528",
-                    stockNo: stockNo
-                    }
-                })
-            })
-        .then((response) => {
-            // let stockList =  new Array()
-            // let data = new Object()
-
-            // let resDataLen = response.data.data.length
-            // let stockNo = response.data["title"].split(/\s+/)[1]
-            // let stockName = response.data["title"].split(/\s+/)[2]
-            // let tradingDate = response.data["date"]
-            // let closingPrice = response.data.data[resDataLen - 1][6]
-            // data.stockNo = stockNo
-            // data.stockName = stockName
-            // data.tradingDate = tradingDate
-            // data.closingPrice = closingPrice
-            // stockList.push(data)
-            // console.log(stockList)
-
-            // let stockName = response.data["title"].split(/\s+/)[2]
-            // console.log(`股票名稱：${stockName}`)
-            console.log(response.data)
-        })
-        .catch((err) => {
-            console.log(`讀檔錯誤：${err}`)
-        })
-}
+        // 有資料則印出
+        if(results.length > 0){
+            console.log("status: ", "success, 資料庫查詢成功")
+            console.log(results)
+        }
+        else{
+            // 無資料則解析 API 並新增至資料庫
+            let response = await axios.get(`https://www.twse.com.tw/zh/api/codeQuery?query=${stockId}`)
+            let suggestions = response.data.suggestions
+            stockId = suggestions[0].split(/\s+/)[0]
+            stockName = suggestions[0].split(/\s+/)[1]
+            await conn.queryAsync(`INSERT INTO stock (stock_id, stock_name) VALUES('${stockId}', '${stockName}')`)
+            console.log("status: ", "success, 資料庫新增成功")
+        }
+        
+    }catch(e){
+        console.error("catch: ", e.stack)
+    }finally{
+        connection.end()
+    }
+})()
 
 
-getTwseData()
+
+
+/********** then(){}catch(){} **********/
+// let stockId = null
+
+// // 讀 stock.txt 檔
+// fs.readFileAsync("stock.txt", "utf-8")
+//     .then((contents) => {
+//         stockId = contents
+//         // 對資料庫查詢
+//         return db.queryAsync(`SELECT stock_name FROM stock WHERE stock_id = '${stockId}'`)
+//     })
+//     .then((results) => {
+//         if(results.length > 0)
+//             // 有資料則印出
+//             console.log(results[0].stock_name)
+//         else{
+//             // 無資料則讀 API
+//             return axios.get(`ttps://www.twse.com.tw/zh/api/codeQuery?query=${stockId}`)
+//         }
+//     })
+//     .then((response) => {
+//         // 將 API 結果解析出股票代號、股票名稱，並寫入資料庫
+//         let suggestions = response.data.suggestions
+//         let stockId = suggestions[0].split(/\s+/)[0]
+//         let stockName = suggestions[0].split(/\s+/)[1]
+//         return db.queryAsync(`INSERT INTO stock (stock_id, stock_name) VALUES ('${stockId}', '${stockName}');`)
+//     })
+//     .then(() => {
+//         console.log("status: ", "success, 資料庫新增成功")
+//     })
+//     .catch((e) => {
+//         console.error("status: ", `faild, ${e}`)
+//     })
+//     .finally(() => {
+//         connection.end()
+//     })
+
+
+/********** 處理錯誤 **********/
+// function wrapper(promise){
+//     return promise()
+//         .then((res) => [null, res])
+//         .catch((err) => [err, null])
+// }
+
+// function getStockId(){
+//     return new Promise(() => {
+//         fs.readFileAsync("stock.txt", "utf-8", (err, data) => {
+//             err != null ? reject(err) : resolve(data)
+//         })
+//     })
+// }
+// function getStockId(){
+//     return fs.readFileAsync("stock.txt", "utf-8")
+//         .then(data => {
+//             console.log(data)
+//         })
+//         .catch(err => {
+//             console.log(err)
+//         })
+// }
+
+// (async function(){
+//     let [err, res] = await wrapper(getStockId)
+//     console.log(err)
+//     console.log(res)
+//     // console.log(await getStockId())
+// })()
