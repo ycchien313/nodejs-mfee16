@@ -2,11 +2,12 @@ const Promise = require("bluebird")
 const fs = Promise.promisifyAll(require("fs"))
 const mysql = require("mysql")
 const axios = require("axios")
+require("dotenv").config()
 const connection = mysql.createConnection({
-    host     : "localhost",
-    user     : "root",
-    password : "0000",
-    database : "stock"
+    host     : process.env.DB_HOST,
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_NAME
 })
 const conn = Promise.promisifyAll(connection);
 
@@ -17,7 +18,7 @@ const conn = Promise.promisifyAll(connection);
         // 對資料庫查詢
         await conn.connectAsync()
         let stockId = await fs.readFileAsync("stock.txt", "utf-8").catch((err) => {throw `status: faild, 檔案讀取失敗, ${err}`})
-        let results = await conn.queryAsync(`SELECT stock_name FROM stock WHERE stock_id = ${stockId}`).catch((err) => {throw `status: faild, 資料庫查詢失敗, ${err}`})
+        let results = await conn.queryAsync(`SELECT stock_name FROM stock WHERE stock_id = ?`, [stockId]).catch((err) => {throw `status: faild, 資料庫查詢失敗, ${err}`})
 
         // 有資料則印出
         if(results.length > 0){
@@ -25,14 +26,17 @@ const conn = Promise.promisifyAll(connection);
             console.log(results)
         }
         else{
-            // 無資料則解析 API 並新增至資料庫
-            let response = await axios.get(`https://www.twse.com.tw/zh/api/codeQuery?query=${stockId}`).catch((err) => {throw `status: faild, API 獲取失敗, ${err}`})
+            // 無資料則查詢股票名稱，並新增至資料庫
+            let response = await axios.get(`https://www.twse.com.tw/zh/api/codeQuery?query=${stockId}`).catch((err) => {throw `status: faild, 取得股票名稱 API 失敗, ${err}`})
             let suggestions = response.data.suggestions
             stockId = suggestions[0].split(/\s+/)[0]
             stockName = suggestions[0].split(/\s+/)[1]
             await conn.queryAsync(`INSERT INTO stock (stock_id, stock_name) VALUES('${stockId}', '${stockName}')`)
             console.log("status: ", "success, 資料庫新增成功")
         }
+        
+        let response = await axios.get(`https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20210606&stockNo=${stockId}`).catch((err) => {throw `status: faild, 取得股票成交資訊 API 失敗, ${err}`})
+        console.log(response.data)
         
     }catch(e){
         console.error("catch: ", e)
