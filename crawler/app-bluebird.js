@@ -36,9 +36,11 @@ async function insertMultiStockData(stockId, resDayLen, response){
 /********** aysnc/await **********/
 (async function(){
     try{
+        // 讀取 stock.txt
+        let stockId = await fs.readFileAsync("stock.txt", "utf-8").catch((err) => {throw `status: faild, 檔案讀取失敗, ${err}`})
+
         // 對資料庫查詢
         await conn.connectAsync()
-        let stockId = await fs.readFileAsync("stock.txt", "utf-8").catch((err) => {throw `status: faild, 檔案讀取失敗, ${err}`})
         let results = await conn.queryAsync(`SELECT stock_name FROM stock WHERE stock_id = ?`, [stockId]).catch((err) => {throw `status: faild, 資料庫查詢失敗, ${err}`})
 
         // 有資料則印出
