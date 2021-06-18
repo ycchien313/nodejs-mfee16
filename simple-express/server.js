@@ -51,8 +51,10 @@ app.get('/about', (req, res) => {
 
 app.get('/stock', async (req, res) => {
     let stocks = await db.conn.queryAsync('SELECT * FROM stock');
+    let subTitle = { hint: '熱門標的' };
+    let listContent = { stocks, subTitle };
     console.log(stocks);
-    res.render('stock/list', stocks);
+    res.render('stock/list', listContent);
     res.end();
 });
 
