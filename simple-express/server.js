@@ -2,13 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const fs = require('fs/promises');
-
-// 不懂 next 的意義 ...
-app.use((req, res, next) => {
-    let current = new Date();
-    console.log(`有人來訪問了喔 在 ${current}`);
-    next();
-});
+const db = require('./utils/db.js');
 
 // app.use((req, res, next) => {
 //     console.log('after next');
@@ -20,11 +14,26 @@ app.use((req, res, next) => {
 //     next();
 // });
 
+// 不懂 next 的意義 ...
+// app.use((req, res, next) => {
+//     let current = new Date();
+//     console.log(`有人來訪問了喔 在 ${current}`);
+//     next();
+// });
+
+// 設定靜態資源
+// 只要是靜態資源就會從 public 進入
+app.use(express.static('public'));
+
+// 設定動態資源
+app.set('views', 'views');
+app.set('view engine', 'pug');
+
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.render('index');
     res.end();
-    console.log(req.url);
-    console.log(res.header);
+    // console.log(req.url);
+    // console.log(res.header);
 });
 
 app.get('/test', async (req, res) => {
@@ -34,11 +43,20 @@ app.get('/test', async (req, res) => {
 });
 
 app.get('/about', (req, res) => {
-    let name = req.query['name'];
-    res.send(`Hi ${name}`);
+    // let name = req.query['name'];
+    // res.send(`Hi ${name}`);
+    res.render('about');
+    res.end();
+});
+
+app.get('/stock', async (req, res) => {
+    let stocks = await db.conn.queryAsync('SELECT * FROM stock');
+    console.log(stocks);
+    res.render('stock/list', stocks);
     res.end();
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`simple-express app listening at http://localhost:${port}`);
+    db.conn.connectAsync();
 });
