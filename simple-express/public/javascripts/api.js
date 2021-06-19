@@ -11,6 +11,7 @@
 //     });
 
 // axios版
+// promised based
 // axios({
 //     method: 'GET',
 //     url: 'api/stocks',

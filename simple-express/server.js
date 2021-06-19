@@ -6,17 +6,18 @@ const db = require('./utils/db.js');
 const stockRouter = require('./routes/stock');
 const apiRouter = require("./routes/api")
 
-// app.use((req, res, next) => {
-//     console.log('after next');
-//     next();
-// });
+app.use((req, res, next) => {
+    console.log(next)
+    next();
+    console.log('after next');
+});
 
 // app.use((req, res, next) => {
 //     console.log('before next');
-//     next();
+//     next(); 
 // });
 
-// 不懂 next 的意義 ...
+
 // app.use((req, res, next) => {
 //     let current = new Date();
 //     console.log(`有人來訪問了喔 在 ${current}`);
@@ -35,6 +36,7 @@ app.set('views', 'views');
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
+    console.log(123)
     res.render('index');
     res.end();
     // console.log(req.url);
