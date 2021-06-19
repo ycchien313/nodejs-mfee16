@@ -1,8 +1,22 @@
-table
-    tr
-        th 股票代號
-        th 股票名字
-    each stock in stocks
-        tr
-            td #{stock.stock_id}
-            td #{stock.stock_name}
+extends ../_layouts/master
+
+block content 
+    h3=`目前查看 ${stocks.stockName}，在第 ${pagination.currentPage} 頁`
+    table 
+        tr 
+            th 日期
+            th 開盤價
+            th 最高價
+            th 最低價
+            th 收盤價
+        each stockPrice in stocks.stockPrices 
+            tr 
+                td #{stockPrice.date}
+                td #{stockPrice.open_price}
+                td #{stockPrice.high_price}
+                td #{stockPrice.low_price}
+                td #{stockPrice.close_price}
+
+    .pagination    
+        - for(let i = 1; i <= pagination.lastPage; i++)
+            a(href=`/stock/${stocks.stockId}?page=${i}`, class=i==pagination.currentPage?"active":"") #{i}
