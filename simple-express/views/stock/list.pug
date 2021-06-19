@@ -3,4 +3,12 @@ extends ../_layouts/master
 block content
     h1 這是印出股票代碼頁面
     h2=subTitle.hint
-    include detail
+    table
+        tr
+            th 股票代號
+            th 股票名字
+        each stock in stocks
+            tr
+                td 
+                    a(href=`/stock/${stock.stock_id}`) #{stock.stock_id}
+                td #{stock.stock_name}
