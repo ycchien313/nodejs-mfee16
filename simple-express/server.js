@@ -5,6 +5,11 @@ const fs = require('fs/promises');
 const db = require('./utils/db.js');
 const stockRouter = require('./routes/stock');
 const apiRouter = require('./routes/api');
+const authRouter = require('./routes/auth');
+const memberRouter = require('./routes/member');
+const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
+require('dotenv').config();
 
 // app.use((req, res, next) => {
 //     console.log('before next');
@@ -17,19 +22,36 @@ const apiRouter = require('./routes/api');
 //     next();
 // });
 
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(
+    expressSession({
+        secret: process.env.SESSION_SECRET,
+        saveUninitialized: false,
+        resave: false,
+    })
+);
+
 // 設定靜態資源
 // 只要是靜態資源就會從 public 進入
 app.use(express.static('public'));
 
+app.use(function (req, res, next) {
+    res.locals.member = req.session.member;
+    console.log(res.locals);
+    next();
+});
+
 app.use('/stock', stockRouter);
 app.use('/api/', apiRouter);
+app.use('/auth/', authRouter);
+app.use('/member', memberRouter);
 
 // 設定動態資源
 app.set('views', 'views');
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-    console.log(123);
     res.render('index');
     res.end();
     // console.log(req.url);
@@ -56,11 +78,11 @@ app.use(function (req, res, next) {
 });
 
 // 500，伺服器內部錯誤
-app.use(function(err, req, res, next){
-    console.error("STATUS: 錯誤，", err)
-    res.status(500)
-    res.send("500 - Internal Sever Error 請洽系統管理員");
-})
+app.use(function (err, req, res, next) {
+    console.error('STATUS: 錯誤，', err);
+    res.status(500);
+    res.send('500 - Internal Sever Error 請洽系統管理員');
+});
 
 app.listen(port, () => {
     console.log(`simple-express app listening at http://localhost:${port}`);
