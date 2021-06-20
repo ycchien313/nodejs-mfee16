@@ -1,0 +1,12 @@
+extends _layouts/master
+
+block content
+    table 
+        tr 
+            td email
+            td #{member.email}
+        tr 
+            td 姓名
+            td #{member.name}
+
+    img(src=member.photo)
