@@ -1,0 +1,25 @@
+extends ../_layouts/master
+block styleCss
+    link(rel="stylesheet", href="/stylesheets/style.css")
+
+block main 
+    h1 註冊頁面
+    .form-container 
+        form(class="form", action="/auth/register", method="post", enctype="multipart/form-data")
+            div
+                label(for="name") 姓名 
+                    input(type="text", name="name", value="YiChieh")
+            div
+                label(for="email") Email 
+                    input(type="email", name="email", value="chien313jay@gmail.com")
+            div
+                lebel(for="password") 密碼
+                    input(type="password", name="password", value="123")
+            div
+                label(for="confirmPassword") 確認密碼
+                    input(type="password", name="confirmPassword", value="123")
+            div
+                label(for="photo") 照片
+                    input(type="file", name="photo")
+            button(type="submit") 送出
+            

@@ -1,0 +1,16 @@
+extends ../_layouts/master
+
+block styleCss 
+    link(rel="stylesheet", href="/stylesheets/style.css")
+
+block main 
+    h1 登入頁面
+    .form-container 
+        form(class="form", action="/auth/login", method="post") 
+            div
+                label(for="email") Email / 帳號
+                input(type="email", name="email", value="chien313jay2@gmail.com")
+            div 
+                label(for="password") 密碼
+                input(type="password", name="password", value="123")
+            button 送出

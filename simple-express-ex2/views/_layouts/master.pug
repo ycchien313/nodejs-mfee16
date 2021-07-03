@@ -1,0 +1,18 @@
+doctype html 
+if message 
+    script(src="//cdn.jsdelivr.net/npm/sweetalert2@11")
+
+html 
+    block styleCss
+body 
+    include header
+    main 
+        block main
+    include footer
+
+if message 
+    script.
+        Swal.fire({
+            title: "#{message.title}",
+            text: "#{message.text}"
+        })

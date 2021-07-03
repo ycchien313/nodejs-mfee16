@@ -1,0 +1,20 @@
+block styleCss 
+    link(rel="stylesheet", href="/stylesheets/style.css")
+
+header 
+    nav(class="nav")
+        div(class="nav-container")
+            ul 
+                a(href="/") 
+                    li 首頁
+                li 股票
+                if member
+                    a(href="/member")
+                        li 會員中心
+                    a(href="/auth/logout")
+                        li 登出
+                else
+                    a(href="/auth/register")
+                        li 註冊
+                    a(href="/auth/login") 
+                        li 登入
